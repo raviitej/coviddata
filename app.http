@@ -16,13 +16,14 @@ Content-Type: application/json
 }
 
 ###
-get http:localhost:3002/districts/547/
+get http://localhost:3002/districts/321/
 
 ###
 DELETE http://localhost:3002/districts/322/
 
 ###
-PUT http://localhost:3002/districts/768/
+PUT http://localhost:3002/districts/321/
+
 Content-Type: application/json
 
 {
@@ -37,4 +38,4 @@ Content-Type: application/json
 get http://localhost:3002/states/8/stats/
 
 ###
-get http://localhost:3002/districts/769/details/
+get http://localhost:3002/districts/321/details/

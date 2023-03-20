@@ -76,12 +76,7 @@ const convertDistrictData = (each) => {
 
 app.get("/districts/:districtId/", async (request, response) => {
   const { districtId } = request.params;
-  const districtQuery = `SELECT
-        *
-        FROM
-        district
-        WHERE
-        district_id = ${districtId};`;
+  const districtQuery = `SELECT * FROM district WHERE district_id = ${districtId}`;
   const districtHistory = await db.get(districtQuery);
   response.send(convertDistrictData(districtHistory));
 });
@@ -111,7 +106,7 @@ app.put("//districts/:districtId//", async (request, response) => {
     active,
     deaths,
   } = districtDetails;
-  const postQuery = `UPDATE  district SET district_name = '${districtName}',state_id = ${stateId},cases = ${cases},cured = ${cured},active = ${active} ,deaths=${deaths} WHERE district_id =${districtID};`;
+  const postQuery = `UPDATE district SET district_name = '${districtName}', state_id = ${stateId}, cases = ${cases},cured = ${cured}, active = ${active} ,deaths=${deaths}  WHERE district_id = ${districtID}`;
   await db.run(postQuery);
   response.send("District Details Updated");
 });
@@ -142,7 +137,7 @@ const states = (each) => {
 
 app.get("/districts/:districtId/details/", async (request, response) => {
   const { districtId } = request.params;
-  const dbQuery = `SELECT state_name  FROM district WHERE district_id = ${districtId}; `;
+  const dbQuery = `SELECT state_name  FROM district NATURAL JOIN state WHERE district_id = ${districtId}; `;
   const stateData = await db.all(dbQuery);
   response.send(stateData.map((each) => states(each)));
 });
