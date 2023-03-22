@@ -95,7 +95,7 @@ app.delete("/districts/:districtId/", async (request, response) => {
 
 // API 6
 
-app.put("//districts/:districtId//", async (request, response) => {
+app.put("/districts/:districtId/", async (request, response) => {
   const { districtId } = request.params;
   const districtDetails = request.body;
   const {
@@ -114,16 +114,16 @@ app.put("//districts/:districtId//", async (request, response) => {
 // API7
 const staticalData = (each) => {
   return {
-    totalCases: each.totalCases,
-    totalCured: each.totalCured,
-    totalActive: each.totalActive,
-    totalDeaths: each.totalDeaths,
+    totalCases: each["SUM(cases)"],
+    totalCured: each["SUM(cured)"],
+    totalActive: each["SUM(active)"],
+    totalDeaths: each["SUM(deaths)"],
   };
 };
 
 app.get("/states/:stateId/stats/", async (request, response) => {
   const { stateId } = request.params;
-  const dbQuery = `SELECT SUM(cases) AS totalCases,SUM(cured) AS totalCured,SUM(active) As totalActive,SUM(deaths) As totalDeaths FROM district WHERE state_id = ${stateId}; `;
+  const dbQuery = `SELECT SUM(cases) ,SUM(cured) ,SUM(active) ,SUM(deaths) FROM district WHERE state_id = ${stateId}; `;
   const stateData = await db.all(dbQuery);
   response.send(stateData.map((each) => staticalData(each)));
 });
